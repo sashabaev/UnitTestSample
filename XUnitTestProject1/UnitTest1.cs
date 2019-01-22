@@ -1,6 +1,7 @@
 using Moq;
 using Repositories.Interfaces;
 using Repositories.Models;
+using Services.Exceptions;
 using Services.Services;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace XUnitTestProject1
             //{
             //    await service.Withdraw(2000, "ccccc");
             //}
-            //catch (Exception ex)
+            //catch (ATMNotEnoughMoneyException)
             //{
             //    Assert.True(true);
             //    return;

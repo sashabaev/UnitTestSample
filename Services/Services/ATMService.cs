@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Repositories.Models;
+using Services.Exceptions;
 
 namespace Services.Services
 {
@@ -34,7 +35,7 @@ namespace Services.Services
             var totalAmount = _aTMRepository.All.Sum(x => x.Amount);
 
             if (totalAmount < amount)
-                throw new Exception("Not enough money");
+                throw new ATMNotEnoughMoneyException("Not enough money");
 
             await _aTMRepository.CreateAsync(new Repositories.Models.BankTransaction() { Amount = -amount, ATMAddress = "Prospekt Nauki 37", IsDebit = false, TransactionDate = DateTime.Now });
         }
