@@ -1,9 +1,10 @@
 ﻿using Repositories.Interfaces;
+using Repositories.Models;
+using Services.Exceptions;
 using Services.Interfaces;
 using System;
-using System.Threading.Tasks;
 using System.Linq;
-using Repositories.Models;
+using System.Threading.Tasks;
 
 namespace Services.Services
 {
@@ -21,18 +22,17 @@ namespace Services.Services
         public async Task Withdraw(int amount, string address)
         {
             if (amount <= 0)
-                throw new Exception("Amount cant be less or equals then zero");
+                throw new ATMNotEnoughMoneyException("Amount cant be less or equals then zero");
             if (amount % 5 > 0)
-                throw new Exception("Amount is incorrect");
+                throw new ATMNotEnoughMoneyException("Amount is incorrect");
             if (string.IsNullOrWhiteSpace(address))
-                throw new Exception("Address is incorrect");
+                throw new ATMNotEnoughMoneyException("Address is incorrect");
 
             var totalAmount = _aTMRepository.All.Sum(x => x.Amount);
 
             if (totalAmount < amount)
-                throw new Exception("Not enough money");
-
-            await _aTMRepository.CreateAsync(new BankTransaction() { Amount = totalAmount - amount, ATMAddress = address, IsDebit = false, TransactionDate = DateTime.Now });
+                throw new ATMNotEnoughMoneyException("Not enough money");
+            await _aTMRepository.CreateAsync(new BankTransaction() { Amount = -amount, ATMAddress = address, IsDebit = false, TransactionDate = DateTime.Now });
         }
 
         public async Task Withdraw(int amount, Currency currency, string address, Country country)
