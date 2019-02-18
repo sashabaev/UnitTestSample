@@ -42,6 +42,8 @@ namespace RepositoryPresentation
 
             //services.AddScoped<IProductService, ProductServiceUsingDbSet>();
             services.AddScoped<IProductService, ProductServiceUsingRepositoryLogic>();
+            services.AddScoped<ICurrencyHttpService, CurrencyHttpService>();
+            services.AddScoped<IATMService, ATMService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
