@@ -22,7 +22,7 @@ namespace Services.Services
         {
             if (amount <= 0)
                 throw new Exception("Amount cant be less or equals then zero");
-            if (amount % 2 > 0)
+            if (amount % 5 > 0)
                 throw new Exception("Amount is incorrect");
             if (string.IsNullOrWhiteSpace(address))
                 throw new Exception("Address is incorrect");

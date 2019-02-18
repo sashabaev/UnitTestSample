@@ -22,44 +22,30 @@ namespace XUnitTestProject1
             mockRepiository = new Mock<IATMRepository>();
             mockRepiository.Setup(p => p.All).Returns(transactions.AsQueryable());
             mockCurency = new Mock<ICurrencyHttpService>();
-            mockCurency.Setup(p => p.GetEuroToUSdRate()).ReturnsAsync(1.4);
-            mockRepiository.Setup(p => p.CreateAsync(It.IsAny<BankTransaction>()))
-                 .Callback((BankTransaction val) =>
-                 {
-                     transactions.Add(val);
-                 });
+            mockCurency.Setup(p => p.GetEuroToUSdRate()).ReturnsAsync(1.13);
+            
             service = new ATMService(mockCurency.Object, mockRepiository.Object);
         }
 
         [Fact]
-        public async void Test1()
+        public async void TestTransaction()
         {
             try
             {
-                await service.Withdraw(200, "ccccc");
-            }
-            catch (Exception ex)
-            {
-                Assert.True(true);
-                return;
-            }
-            Assert.True(true);
-        }
-
-
-        [Fact]
-        public async void TestCurency()
-        {
-            try
-            {
-                await service.Withdraw(200, Currency.EURO, "ccccc", Country.Germany);
+                mockRepiository.Setup(p => p.CreateAsync(It.IsAny<BankTransaction>()))
+                    .Callback((BankTransaction val) =>
+                    {
+                        transactions.Add(val);                       
+                    });
+                
+                 service.Withdraw(300, Currency.EURO, "ccccc", Country.Germany);
             }
             catch (ATMNotEnoughMoneyException ex)
             {
-                Assert.True(true);
+                Assert.True(false);
                 return;
             }
-            Assert.True(true);
+            Assert.Equal(transactions,  mockRepiository.Object.All);           
         }
     }
 }
