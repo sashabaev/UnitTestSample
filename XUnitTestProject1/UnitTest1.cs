@@ -70,7 +70,7 @@ namespace XUnitTestProject1
             {              
                 await service.Withdraw(300, Currency.EURO, "ccccc", Country.Germany);
             }
-            catch (ATMNotEnoughMoneyException ex)
+            catch (ATMRateEqualZeroException ex)
             {
                 Assert.True(true);
                 return;

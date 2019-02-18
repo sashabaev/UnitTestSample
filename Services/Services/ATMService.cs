@@ -22,7 +22,7 @@ namespace Services.Services
         public async Task Withdraw(int amount, string address)
         {
             if (amount <= 0)
-                throw new ATMNotEnoughMoneyException("Amount cant be less or equals then zero");
+                throw new ATMRateEqualZeroException("Amount cant be less or equals then zero");
             if (amount % 5 > 0)
                 throw new ATMNotEnoughMoneyException("Amount is incorrect");
             if (string.IsNullOrWhiteSpace(address))
