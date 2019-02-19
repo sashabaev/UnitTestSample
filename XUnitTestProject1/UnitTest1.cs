@@ -62,7 +62,7 @@ namespace XUnitTestProject1
         }
 
         [Fact]
-        public async void TestCountry()
+        public async void TestCountryCheckAmmountForNotUSASuccess()
         {
             try
             {
