@@ -82,7 +82,7 @@ namespace XUnitTestProject1
         }
 
         [Fact]
-        public async void TestRateEqualZero()
+        public async void TestRateEqualZeroSuccess()
         {
             mockCurency = new Mock<ICurrencyHttpService>();
             mockCurency.Setup(p => p.GetEuroToUSdRate()).ReturnsAsync(0);
