@@ -42,7 +42,7 @@ namespace XUnitTestProject1
         }
 
         [Fact]
-        public async void TestCurencyRate()
+        public async void TestCurencyRateSuccess()
         {
             try
             {
@@ -60,6 +60,27 @@ namespace XUnitTestProject1
                 Assert.Equal(695, transactions.Sum(x => x.Amount));
             }
         }
+
+        [Fact]
+        public async void TestCountry()
+        {
+            try
+            {
+                mockRepository.Setup(p => p.CreateAsync(It.IsAny<BankTransaction>()))
+                     .Callback((BankTransaction val) =>
+                     {
+                         transactions.Add(val);
+                     });
+                service = new ATMService(mockCurency.Object, mockRepository.Object);
+                await service.Withdraw(300, Currency.USD, "ccccc", Country.Germany);
+                Assert.Equal(730, mockRepository.Object.All.Sum(x => x.Amount));
+            }
+            catch (Exception ex)
+            {
+                Assert.Equal(730, transactions.Sum(x => x.Amount));
+            }
+        }
+
         [Fact]
         public async void TestRateEqualZero()
         {
